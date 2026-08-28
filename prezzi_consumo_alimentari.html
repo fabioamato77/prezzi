@@ -486,7 +486,10 @@ function renderVariationTable() {
     const pct = ((endVal / startVal) - 1) * 100;
     return { name: s.name, color: palette[i % palette.length], startVal, endVal, pct };
   });
-  rows.sort((a, b) => Math.abs(b.pct) - Math.abs(a.pct));
+  rows.sort((a, b) => {
+    if ((a.pct >= 0) !== (b.pct >= 0)) return (b.pct >= 0) - (a.pct >= 0);
+    return Math.abs(b.pct) - Math.abs(a.pct);
+  });
 
   let html = '<table class="var-table"><thead><tr>' +
     '<th>Categoria</th><th class="var-num">' + formatLabel(chartData.labels[startIdx]) + '</th>' +
